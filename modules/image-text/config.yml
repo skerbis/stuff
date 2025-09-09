@@ -1,0 +1,11 @@
+key: "image-text"
+title: "Bild & Text"
+description: "Kombination aus Bild und Text mit flexiblem Layout"
+author: "Friends Of REDAXO"
+version: "1.0.0"
+redaxo_version: "5.13+"
+tags:
+  - image
+  - text
+  - media
+  - layout

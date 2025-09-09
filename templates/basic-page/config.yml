@@ -1,0 +1,11 @@
+key: "basic-page"
+title: "Basis Seitentemplate"
+description: "Einfaches, responsives Seitentemplate für REDAXO"
+author: "Friends Of REDAXO"  
+version: "1.0.0"
+redaxo_version: "5.13+"
+tags:
+  - template
+  - responsive
+  - basic
+  - html5

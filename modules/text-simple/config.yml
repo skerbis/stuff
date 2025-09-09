@@ -1,0 +1,10 @@
+key: "text-simple"
+title: "Einfacher Text"
+description: "Basis-Textmodul mit Überschrift und Textbereich"
+author: "Friends Of REDAXO"
+version: "1.0.0"
+redaxo_version: "5.13+"
+tags:
+  - text
+  - basic
+  - content
