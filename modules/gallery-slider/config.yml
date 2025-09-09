@@ -1,0 +1,22 @@
+title: "Galerie Slider"
+description: "Modernes Galerie-Modul mit Slider-Funktionalität und Lightbox"
+author: "Friends Of REDAXO"
+version: "1.2.0"
+key: "gallery_slider"
+category_id: 2
+redaxo_version: "5.13+"
+tags:
+  - gallery
+  - slider  
+  - images
+  - lightbox
+  - javascript
+assets:
+  css:
+    - "slider.css"
+    - "lightbox.css"
+  js:
+    - "slider.js" 
+    - "lightbox.js"
+dependencies:
+  - "jQuery 3.6+"
