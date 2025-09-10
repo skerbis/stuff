@@ -1,0 +1,43 @@
+title: "Demo Helper Class"
+description: "Nützliche Helper-Funktionen für REDAXO Projekte - Cards, Breadcrumbs, responsive Bilder, Pagination und mehr"
+author: "Thomas Skerbis"
+version: "1.0.0"
+key: "demo_helper"
+category: "utility"
+redaxo_version: "5.13+"
+target_directory: "lib"
+filename: "DemoHelper.php"
+namespace: ""
+tags:
+  - helper
+  - utility
+  - html
+  - components
+dependencies:
+  - "REDAXO Core Functions"
+usage_examples:
+  - "DemoHelper::generateCard('Titel', 'Beschreibung', '/media/bild.jpg', '/artikel/1')"
+  - "DemoHelper::formatText($text, 'Kein Text', true, 150)"
+  - "DemoHelper::generateBreadcrumb([['title' => 'Home', 'url' => '/'], ['title' => 'Seite']])"
+methods:
+  - name: "generateCard"
+    description: "Generiert eine HTML-Card-Komponente"
+    parameters: ["title", "content", "image", "link", "classes"]
+  - name: "formatText" 
+    description: "Formatiert einen Text mit Fallback und Optionen"
+    parameters: ["text", "fallback", "stripTags", "maxLength"]
+  - name: "generateBreadcrumb"
+    description: "Generiert eine Breadcrumb-Navigation"
+    parameters: ["items", "separator"]
+  - name: "generateResponsiveImage"
+    description: "Generiert ein responsives Bild"
+    parameters: ["imagePath", "alt", "breakpoints", "attributes"]
+  - name: "generatePagination"
+    description: "Erstellt eine einfache Pagination"
+    parameters: ["currentPage", "totalPages", "baseUrl", "range"]
+  - name: "validateEmail"
+    description: "Validiert eine E-Mail-Adresse"
+    parameters: ["email"]
+  - name: "generateSlug"
+    description: "Generiert einen sicheren Slug"
+    parameters: ["text", "separator"]
