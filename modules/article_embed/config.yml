@@ -1,0 +1,15 @@
+title: "Artikel oder Slice einbinden"
+key: "article_embed"
+description: "Bindet Inhalte anderer Artikel oder einzelne Slices ein. Modernisierte Version des klassischen Slice-HiJacker Moduls."
+author: "Friends Of REDAXO"
+version: "2.0.0"
+redaxo_version: "5.15+"
+requires:
+  - "REDAXO Core"
+features:
+  - "Artikel komplett einbinden"
+  - "Einzelne Slices einbinden"
+  - "Artikel- und Slice-Existenz-Prüfung"
+  - "Backend-Vorschau mit Quellenlink"
+  - "Automatische Validierung"
+  - "Responsive Auswahl-Interface"
