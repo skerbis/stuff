@@ -1,149 +1,56 @@
 <?php
-/**
- * Artikel oder Slice einbinden - Output
- * 
- * Modernisierte Version des klassischen Slice-HiJacker Moduls
- * Gibt die ausgewählten Artikel- oder Slice-Inhalte aus
- * 
- * @package REDAXO Module
- * @author Friends Of REDAXO
- * @version 2.0.0
- */
-
-$selectedArticleId = "REX_LINK[1]";
-$selectedSliceOption = "REX_VALUE[2]";
-$currentArticleId = rex_article::getCurrentId();
-
-// Schutz vor Endlosschleifen
-if ($selectedArticleId == $currentArticleId) {
+if( "REX_VALUE[2]" != "" )
+{
+  // Artikel-Existenz prüfen
+  $article = rex_article::get('REX_LINK[id=1]');
+  
+  if (!$article) {
     if (rex::isBackend()) {
-        echo '<div class="alert alert-danger">
-                <strong>Konfigurationsfehler:</strong> Der aktuelle Artikel kann nicht eingebunden werden (würde eine Endlosschleife verursachen).
-              </div>';
+      print '<div class="alert alert-dismissible alert-danger">
+        <strong>Fehler:</strong> Der ausgewählte Artikel existiert nicht mehr. Bitte aktualisieren oder entfernen Sie den Block.
+      </div>';
     }
     return;
-}
+  }
 
-// Prüfen ob Artikel ausgewählt wurde
-if (!$selectedArticleId) {
-    if (rex::isBackend()) {
-        echo '<div class="alert alert-warning">
-                <strong>Konfiguration erforderlich:</strong> Bitte wählen Sie einen Artikel aus.
-              </div>';
-    }
-    return;
-}
+  // Im Backend den Link zur Quelle anzeigen
+  if(rex::isBackend())
+  {
+    $master = rex_article::get(REX_LINK[id=1 output=id]);
+    print '<div class="alert alert-dismissible alert-info">
+    <strong>Eingebundener Inhalt aus: </strong> <a type="button" class="btn btn-primary" href="index.php?page=content&article_id=REX_LINK[id=1 output=id]&mode=edit&clang=1">';
+    print $master->getName().'</a></div>';
+  }
 
-// Prüfen ob der Artikel existiert
-$targetArticle = rex_article::get($selectedArticleId);
-if (!$targetArticle) {
-    if (rex::isBackend()) {
-        echo '<div class="alert alert-danger">
-                <strong>Fehler:</strong> Der ausgewählte Artikel (ID: ' . $selectedArticleId . ') existiert nicht mehr.
-              </div>';
-    }
-    return;
-}
-
-// Prüfen ob der Artikel online ist (nur im Frontend)
-if (!rex::isBackend() && !$targetArticle->isOnline()) {
-    // Im Frontend nichts ausgeben wenn Artikel offline
-    return;
-}
-
-try {
-    $clang = rex_clang::getCurrentId();
+  if ( "REX_VALUE[2]" === "kompletter_artikel" )
+  {
+    // kompletten Artikel einbinden
+    $article_content = new rex_article_content($article->getId(), $article->getClang());
+    echo $article_content->getArticle(1);
+  }
+  else
+  {
+    // Slice-Existenz prüfen
+    $slice = rex_article_slice::getArticleSliceById("REX_VALUE[2]");
     
-    // Kompletten Artikel einbinden
-    if ($selectedSliceOption === 'complete_article' || $selectedSliceOption === '0' || empty($selectedSliceOption)) {
-        
-        if (rex::isBackend()) {
-            echo '<div class="alert alert-info" style="margin-bottom: 15px;">
-                    <strong>Embedded Article:</strong> ' . rex_escape($targetArticle->getName()) . ' (ID: ' . $selectedArticleId . ')
-                  </div>';
-        }
-        
-        // Artikel-Inhalt laden
-        $articleContent = new rex_article_content($selectedArticleId, $clang);
-        if ($articleContent->getArticle()) {
-            echo $articleContent->getArticle();
-        } else {
-            if (rex::isBackend()) {
-                echo '<div class="alert alert-warning">
-                        <strong>Hinweis:</strong> Der Artikel enthält keine Inhalte.
-                      </div>';
-            }
-        }
-        
-    } else {
-        // Einzelnen Slice einbinden
-        $sliceId = (int) $selectedSliceOption;
-        
-        if ($sliceId <= 0) {
-            if (rex::isBackend()) {
-                echo '<div class="alert alert-warning">
-                        <strong>Konfiguration erforderlich:</strong> Bitte wählen Sie einen Block/Slice aus.
-                      </div>';
-            }
-            return;
-        }
-        
-        // Slice laden
-        $slice = rex_article_slice::getArticleSliceById($sliceId);
-        
-        if (!$slice) {
-            if (rex::isBackend()) {
-                echo '<div class="alert alert-danger">
-                        <strong>Fehler:</strong> Der ausgewählte Block/Slice (ID: ' . $sliceId . ') existiert nicht mehr.
-                      </div>';
-            }
-            return;
-        }
-        
-        // Prüfen ob der Slice zum ausgewählten Artikel gehört
-        if ($slice->getArticleId() != $selectedArticleId) {
-            if (rex::isBackend()) {
-                echo '<div class="alert alert-danger">
-                        <strong>Fehler:</strong> Der ausgewählte Block gehört nicht zum ausgewählten Artikel.
-                      </div>';
-            }
-            return;
-        }
-        
-        if (rex::isBackend()) {
-            // Modul-Info für Backend
-            $moduleId = $slice->getModuleId();
-            $module = rex_sql::factory()->getArray('SELECT name FROM ' . rex::getTable('module') . ' WHERE id = ?', [$moduleId]);
-            $moduleName = $module ? $module[0]['name'] : 'Unbekanntes Modul';
-            
-            echo '<div class="alert alert-info" style="margin-bottom: 15px;">
-                    <strong>Embedded Slice:</strong> Block #' . $sliceId . ' aus "' . rex_escape($targetArticle->getName()) . '" 
-                    <br><small>Modul: ' . rex_escape($moduleName) . '</small>
-                  </div>';
-        }
-        
-        // Slice-Inhalt ausgeben
-        $sliceContent = $slice->getSlice();
-        if (!empty($sliceContent)) {
-            echo $sliceContent;
-        } else {
-            if (rex::isBackend()) {
-                echo '<div class="alert alert-warning">
-                        <strong>Hinweis:</strong> Der ausgewählte Block enthält keine Inhalte.
-                      </div>';
-            }
-        }
+    if (!$slice) {
+      if (rex::isBackend()) {
+        print '<div class="alert alert-dismissible alert-danger">
+          <strong>Fehler:</strong> Der ausgewählte Block/Slice existiert nicht mehr. Bitte aktualisieren oder entfernen Sie den Block.
+        </div>';
+      }
+      return;
     }
-    
-} catch (Exception $e) {
-    if (rex::isBackend()) {
-        echo '<div class="alert alert-danger">
-                <strong>Fehler beim Laden der Inhalte:</strong><br>
-                ' . rex_escape($e->getMessage()) . '
-              </div>';
-    }
-    
-    // Fehler loggen
-    rex_logger::logException($e);
+
+    // Den Slice/Block laden und anzeigen
+    print $slice->getSlice();
+  }
 }
-?>
+else
+{
+  // Im Backend kurzen (Fehler-)Text ausgeben
+  if(rex::isBackend())
+  {
+    print "<p>Noch keinen Slice/Block ausgew&auml;hlt.</p>";
+  }
+}
