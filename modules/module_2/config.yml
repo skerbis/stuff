@@ -1,5 +1,9 @@
 title: "link"
+key: "module_2"
 description: "link"
 author: "Thomas Skerbis"
 version: "1.0.0"
 redaxo_version: "5.13+"
+assets:
+  css: []
+  js: []

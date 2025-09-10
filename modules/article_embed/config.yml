@@ -9,7 +9,10 @@ requires:
 features:
   - "Artikel komplett einbinden"
   - "Einzelne Slices einbinden"
-  - "Artikel- und Slice-Existenz-Prüfung"
+  - "Artikel- und Slice-Existenz-Prüfung"  
   - "Backend-Vorschau mit Quellenlink"
   - "Automatische Validierung"
   - "Responsive Auswahl-Interface"
+assets:
+  css: []
+  js: []

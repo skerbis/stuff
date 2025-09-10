@@ -1,5 +1,9 @@
-title: "01 - Gridblock (gruppierte Blöcke)"
+title: "01 - Gridblock (gruppierte Blöcke)" 
+key: "gblock"
 description: "01 - Gridblock (gruppierte Blöcke)"
 author: "Thomas Skerbis"
 version: "1.0.0"
 redaxo_version: "5.13+"
+assets:
+  css: []
+  js: []
