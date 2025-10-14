@@ -1,0 +1,9 @@
+# Example Helper Configuration
+title: "Example Helper"
+description: "Eine Beispiel-Klasse zur Demonstration des GitHub Installers"
+version: "1.0.0"
+author: "GitHub Installer Demo"
+filename: "ExampleHelper.php"
+namespace: ""
+installed_at: "2024-10-14 12:00:00"
+source_path: "classes/ExampleHelper"
